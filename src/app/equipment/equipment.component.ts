@@ -1,5 +1,5 @@
+import { ReturnStatement } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
-
 @Component({
   selector: 'app-equipment',
   templateUrl: './equipment.component.html',
@@ -21,11 +21,26 @@ export class EquipmentComponent implements OnInit {
    cargoMass: number = 0;
    maximumAllowedMass: number = 2000;
    maxItems: number = 10;
-
+   isDisabled: boolean = false;
+   isNearMax: boolean = false;
    constructor() { }
-
    ngOnInit() { }
-
    // Code your addItem function here:
-   
+   addItem(equipment){
+this.cargoHold.push(equipment);
+this.cargoMass += equipment.mass;
+if(this.cargoMass > this.maximumAllowedMass - 200){
+ this.isNearMax = true
+} else {
+this.isNearMax = false
+}
+   }
+   canAddItem(equipment){
+   if(this.cargoHold.length === this.maxItems || this.cargoMass + equipment.mass > this.maximumAllowedMass){
+     this.isDisabled = true;
+    return false
+   }
+   this.isDisabled = false;
+   return true
+   }
 }
